@@ -32,7 +32,7 @@ tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(0.6, En
             
             game.Players.LocalPlayer.Character.Parent = game.workspace
             for i,v in pairs (game:GetService("Workspace").Entities:GetDescendants()) do
-                if v.Name == "Humanoid" and v.Health > 0 then
+                if v.Name == "HumanoidRootPart" and v.Health > 0 then
                     local ohString1 = "Devil Fruit"
                     local ohString2 = "Q"
                     local ohCFrame3 = CFrame.new(v.Position)
