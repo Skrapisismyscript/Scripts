@@ -1,0 +1,9 @@
+if not game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity") then
+                antifall = Instance.new("BodyVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
+                antifall.Velocity = Vector3.new(0,0,0)
+               
+            end
+            
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(0.6, Enum.EasingStyle.Linear)
+            tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-3775.75781, -43.8003731, 540.878601, -0.165174529, 5.22139807e-08, 0.986264348, -5.51338841e-09, 1, -5.38645146e-08, -0.986264348, -1.4334705e-08, -0.165174529) + Vector3.new(0,5,0)})
+            tween:Play()
