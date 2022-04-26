@@ -32,7 +32,7 @@ tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(0.6, En
             
             game.Players.LocalPlayer.Character.Parent = game.workspace
             for i,v in pairs (game:GetService("Workspace").Entities:GetDescendants()) do
-                if v.Name == "Head" then
+                if v.Name == "Humanoid" and v.Health > 0 then
                     local ohString1 = "Devil Fruit"
                     local ohString2 = "Q"
                     local ohCFrame3 = CFrame.new(v.Position)
@@ -55,3 +55,21 @@ tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(0.6, En
                     local ohNumber5 = 5
 
                     game:GetService("ReplicatedStorage").Remotes.requestAbility:FireServer(ohString1, ohString2, ohCFrame3, ohNil4, ohNumber5)
+                    local ohString1 = "Sword Style"
+                    local ohString2 = "F"
+                    local ohCFrame3 = CFrame.new(v.Position)
+                    local ohNil4 = nil
+                    local ohNumber5 = 5
+
+                    game:GetService("ReplicatedStorage").Remotes.requestAbility:FireServer(ohString1, ohString2, ohCFrame3, ohNil4, ohNumber5)
+                    
+                    
+                    local ohString1 = "Sword Style"
+                    local ohString2 = "Q"
+                    local ohCFrame3 = CFrame.new(v.Position)
+                    local ohNil4 = nil
+                    local ohNumber5 = 5
+
+                    game:GetService("ReplicatedStorage").Remotes.requestAbility:FireServer(ohString1, ohString2, ohCFrame3, ohNil4, ohNumber5)
+                end
+            end
