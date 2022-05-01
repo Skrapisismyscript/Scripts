@@ -1,0 +1,157 @@
+repeat wait() until game:IsLoaded()
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/edJT9EGX", true))()
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+end
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
+end
+
+function Teleport()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+local Window = Library:CreateWindow"Midfall script by Sri#2235"
+Window:AddLabel({text = "you can't disable these LOL 😂"})
+Window:AddToggle({text = "Autofarm Kaigaku", flag = "toggle1", state = true, callback = function(a)
+    pcall(function()
+        wait(2)
+        for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.LoadingScreen.Background.Loading.Skip.MouseButton1Click)) do
+            v:Fire()
+        end
+    
+         wait(14)
+        
+            local args = {
+                [1] = "Player",
+                [2] = "SpawnCharacter"
+                }
+                game:GetService("ReplicatedStorage").Remotes.Sync:InvokeServer(unpack(args))
+                wait(0.6)
+            while true and game:GetService("RunService").RenderStepped:Wait() do
+                if game.Workspace:FindFirstChild("Kaigaku") then
+                    if game.Workspace.Kaigaku:FindFirstChild("HumanoidRootPart") then
+                        
+                        if not game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity") then
+                            antifall = Instance.new("BodyVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
+                            antifall.Velocity = Vector3.new(0,0,0)
+                        
+                        end
+                        
+                        
+                            wait(0.5)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =  game.Workspace.Kaigaku:FindFirstChild("HumanoidRootPart").CFrame + Vector3.new(0,250,0)
+                    else
+                       
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-3586.5127, 717.803589, -986.495361, -0.157918036, 1.17630465e-08, -0.987452209, 8.08969158e-09, 1, 1.06187805e-08, 0.987452209, -6.3112866e-09, -0.157918036)
+                        wait(2)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(915.214844, 757.866821, -2256.99731, 0.00440558558, 2.44468872e-08, 0.999990284, 3.72685038e-09, 1, -2.44635441e-08, -0.999990284, 3.83459042e-09, 0.00440558558)
+                    end
+                end    
+            end
+            while wait() do
+                if not game.Workspace:FindFirstChild("Kaigaku") then
+                    
+                    
+
+            Teleport()
+                end
+            end
+        
+           
+    
+        
+    end)
+    
+    
+end})
+
+Window:AddToggle({text = "Anti Kick", flag = "test", state = true, callback = function(a)
+    task.spawn(function() pcall(function()
+		game:GetService("CoreGui").DescendantAdded:Connect(function(child) 
+			if child.Name == "ErrorPrompt" then 
+				local GrabError = child:FindFirstChild("ErrorMessage",true)
+				repeat wait() until GrabError.Text ~= "Label" 
+				local Reason = GrabError.Text 
+				if Reason:find("kick") or Reason:find("You") or Reason:find("conn") or Reason:find("rejoin") or Reason:find("launch") or Reason:find("account") or Reason:find("Attempted") or Reason:find("Connection") or Reason:find("connection") or Reason:find("kicked") then 
+					wait(1)
+					game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+				end 
+			end
+		end ) 
+	end ) 
+end )
+end})
+
+Window:AddToggle({text = "Anti Glitch", flag = "no", state = true, callback = function(a)
+    if not  game.Players.LocalPlayer.Character:FindFirstChild("AccessorySpawned") then
+          
+
+Teleport()
+    end
+end})
+
+Window:AddToggle({text = "server checkr", flag = "ok", state = true, callback = function(a)
+    if not game.PlaceId == 5094651510 then
+        game:GetService("TeleportService"):Teleport(5094651510, game.Players.LocalPlayer)
+    end
+end})
+
+Library:Init()
