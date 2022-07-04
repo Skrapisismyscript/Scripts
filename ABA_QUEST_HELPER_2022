@@ -51,7 +51,7 @@ end)
         print("detect public teleporting private")
         local args = {
             [1] = "join",
-            [2] = "4dYc!K3"
+            [2] = dickass
         }
         
         game:GetService("ReplicatedStorage").PS:FireServer(unpack(args))
