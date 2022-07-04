@@ -15,7 +15,7 @@ task.wait(3)
 print('started')
 if game.PlaceId == 1458767429 then
     
-    if #game.Players:GetPlayers() == 1 or 2 or 3  then
+    if #game.Players:GetPlayers() == 1 or 2  then
            local windows = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZepsyyCodesLUA/Synapse-Library-OBFUSCATED-/main/Source.lua"))()
 local win = windows:Create({
     Title = "Quest Helper ABA SCRIPT",
