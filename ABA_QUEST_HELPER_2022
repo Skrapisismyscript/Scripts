@@ -1,3 +1,5 @@
+
+
 repeat wait() until game:IsLoaded()
 task.wait(1)
 print("check one")
@@ -49,12 +51,14 @@ eventbypass = hookmetamethod(game, "__namecall", function(self, ...)
 end)
     else
         print("detect public teleporting private")
+        game:GetService("RunService").RenderStepped:Connect(function()
         local args = {
             [1] = "join",
             [2] = PsCode
         }
         
         game:GetService("ReplicatedStorage").PS:FireServer(unpack(args))
+        end)
         
         print("remote fired wait for game")
         
