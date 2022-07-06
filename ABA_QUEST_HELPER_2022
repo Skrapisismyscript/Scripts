@@ -1,73 +1,167 @@
-
-
 repeat wait() until game:IsLoaded()
-task.wait(1)
-print("check one")
-
-for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
-v:Disable()
-print('done')
-end
-
-
-print("done check now start script")
-task.wait(3)
-print('started')
-if game.PlaceId == 1458767429 then
+task.spawn(function()
     
-    if #game.Players:GetPlayers() == 1 or 2  then
-           local windows = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZepsyyCodesLUA/Synapse-Library-OBFUSCATED-/main/Source.lua"))()
-local win = windows:Create({
-    Title = "Quest Helper ABA SCRIPT",
-    Game = "Anime Bugs Arena[ABA]"
-})
-
-local tab = win:NewTab({
-    Title = "Main"
-})
-
-tab:Label({
-    Title = "WARNING: DONT CLICK TP IMMEDIATLEY AFTER GETTING EXP, GIVE IT SOME TIME SO THE DATA DOESNT GLITCH. "
-})
-
-tab:Button({
-    Title = "TP to afk world",
-    Callback = function()
-       game:GetService("TeleportService"):Teleport(5411459567, game.Players.LocalPlayer)
+    task.wait(3)
+    for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+    v:Disable()
+    print('done')
     end
-})
-    
-local eventbypass
-
-eventbypass = hookmetamethod(game, "__namecall", function(self, ...)
-    local method = getnamecallmethod()
-    local args = {...}
-
-    if self.Name == "Setup" and method == "FireServer" then
-       
+    function Tp(place)
+        game:GetService("TeleportService"):Teleport(place, game.Players.LocalPlayer)
     end
-
-    return eventbypass(self, ...)
-end)
-    else
-        print("detect public teleporting private")
-        game:GetService("RunService").RenderStepped:Connect(function()
-        local args = {
-            [1] = "join",
-            [2] = PsCode
-        }
-        
-        game:GetService("ReplicatedStorage").PS:FireServer(unpack(args))
+    local function Click(Button)
+        firesignal(Button.MouseButton1Click)
+        firesignal(Button.Activated)
+        firesignal(Button.MouseButton1Down)
+    end
+    if game.PlaceId == 5411459567 then
+        task.wait(1)
+        game:GetService("RunService").Heartbeat:Connect(function()
+                Tp(1458767429)
         end)
-        
-        print("remote fired wait for game")
-        
-        
 
+    elseif game.PlaceId == 1458767429 then
+        if #game.Players:GetPlayers() == 1 then
+            task.spawn(function()
+                wait(3)
+                local fails = 0
+
+                game:GetService("ReplicatedStorage").GetDailyQuestInfo:InvokeServer()
+                Click(game:GetService("Players").LocalPlayer.PlayerGui.HUD.DailyQuestButton)
+                task.wait(1)
+                for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame:GetChildren()) do
+                    if v.Name == "template" then
+                        task.wait()
+                        if v.title.Text == "Win 3 casual matches in a row in one sitting" then
+                            print("Quest found.")
+                            for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame:GetChildren()) do
+                                if v.Name == "Time" and v.Text == "Stock" then
+                                    task.wait()
+                                    Click(v)
+                                end
+                            end
+                            
+                                    
+                            task.wait(1)
+                            Click(game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame.Start)
+
+
+                            task.spawn(function()
+                                game:GetService("RunService").Heartbeat:Connect(function()
+                                        for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame.template:GetChildren()) do
+                                            if v.Name == "progress" then
+                                                if v.Text == "1/1" then
+                                                    print("Progress completed.")
+                                                    task.wait(5)
+                                                    Tp(5411459567)
+                                                end
+                                            end
+                                        end
+                                end)
+                            end)
+                        else
+                            fails =  fails + 1
+                            print("not found.")
+                            if fails == 4 then
+                                print("failed to find.")
+                                game:GetService("RunService").Heartbeat:Connect(function()
+                                    
+                                        Tp(5411459567)
+                                    
+                                end)
+                            end
+                        end
+                    end
+                end
+            end)
+        else
+            task.spawn(function()
+                game:GetService("RunService").Heartbeat:Connect(function()
+                    for i,v in next, (PsCode) do
+                        local args = {
+                            [1] = "join",
+                            [2] = v
+                        }
+                        
+                        game:GetService("ReplicatedStorage"):FindFirstChild("PS"):FireServer(unpack(args))
+                    end
+                end)
+            end)
+
+            task.spawn(function()
+                print('serverhop in 25 seconds')
+                task.wait(25)
+                local PlaceID = game.PlaceId
+                local AllIDs = {}
+                local foundAnything = ""
+                local actualHour = os.date("!*t").hour
+                local Deleted = false
+                local File = pcall(function()
+                    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+                end)
+                if not File then
+                    table.insert(AllIDs, actualHour)
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                end
+                function TPReturner()
+                    local Site;
+                    if foundAnything == "" then
+                        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+                    else
+                        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+                    end
+                    local ID = ""
+                    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+                        foundAnything = Site.nextPageCursor
+                    end
+                    local num = 0;
+                    for i,v in next, (Site.data) do
+                        local Possible = true
+                        ID = tostring(v.id)
+                        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+                            for _,Existing in pairs(AllIDs) do
+                                if num ~= 0 then
+                                    if ID == tostring(Existing) then
+                                        Possible = false
+                                    end
+                                else
+                                    if tonumber(actualHour) ~= tonumber(Existing) then
+                                        local delFile = pcall(function()
+                                            delfile("NotSameServers.json")
+                                            AllIDs = {}
+                                            table.insert(AllIDs, actualHour)
+                                        end)
+                                    end
+                                end
+                                num = num + 1
+                            end
+                            if Possible == true then
+                                table.insert(AllIDs, ID)
+                                wait()
+                                pcall(function()
+                                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                                    wait()
+                                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                                end)
+                                wait(4)
+                            end
+                        end
+                    end
+                end
+
+                function Teleport()
+                    while wait() do
+                        pcall(function()
+                            TPReturner()
+                            if foundAnything ~= "" then
+                                TPReturner()
+                            end
+                        end)
+                    end
+                end
+
+                Teleport()
+            end)
+        end
     end
-
-    
-elseif game.PlaceId == 5411459567 then
-    task.wait(5)
-    game:GetService("TeleportService"):Teleport(1458767429, game.Players.LocalPlayer)
-end
+end)
