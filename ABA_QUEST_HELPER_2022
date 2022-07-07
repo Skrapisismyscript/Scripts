@@ -14,7 +14,6 @@ task.spawn(function()
     print('game loaded, loading script.')
 
     
-    task.wait(3)
     for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
     v:Disable()
     print('done')
@@ -36,7 +35,7 @@ task.spawn(function()
     elseif game.PlaceId == 1458767429 then
         if #game.Players:GetPlayers() == 1 then
             task.spawn(function()
-                wait(3)
+                
                 local fails = 0
 
                 game:GetService("ReplicatedStorage").GetDailyQuestInfo:InvokeServer()
