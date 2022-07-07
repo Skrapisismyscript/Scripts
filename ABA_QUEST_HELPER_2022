@@ -53,7 +53,7 @@ task.spawn(function()
                                             if v.Name == "progress" then
                                                 if v.Text == "1/1" then
                                                     print("Progress completed.")
-                                                    task.wait(5)
+                                                    task.wait(12)
                                                     Tp(5411459567)
                                                 end
                                             end
