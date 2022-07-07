@@ -48,7 +48,7 @@ task.spawn(function()
 
                             task.spawn(function()
                                 game:GetService("RunService").Heartbeat:Connect(function()
-                                    game:GetService("Players").srivathsanYTuber.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
+                                    game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
                                         for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests:GetDescendants()) do
                                             if v.Name == "progress" then
                                                 if v.Text == "1/1" then
