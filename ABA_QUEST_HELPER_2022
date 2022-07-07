@@ -1,17 +1,18 @@
-game["Loaded"]:Wait()
-local Players = game:GetService("Players")
-local LP = Players["LocalPlayer"]
-while not LP do
-   Players["ChildAdded"]:Wait()
-   LP = Players["LocalPlayer"]
-end
-local Char = LP["Character"]
-while not Char do
-   LP["CharacterAdded"]:Wait()
-   Char = LP["Character"]
-end
-print('game loaded, loading script.')
 task.spawn(function()
+    game["Loaded"]:Wait()
+    local Players = game:GetService("Players")
+    local LP = Players["LocalPlayer"]
+    while not LP do
+    Players["ChildAdded"]:Wait()
+    LP = Players["LocalPlayer"]
+    end
+    local Char = LP["Character"]
+    while not Char do
+    LP["CharacterAdded"]:Wait()
+    Char = LP["Character"]
+    end
+    print('game loaded, loading script.')
+
     
     task.wait(3)
     for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
