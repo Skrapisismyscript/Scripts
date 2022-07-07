@@ -49,7 +49,7 @@ task.spawn(function()
                             task.spawn(function()
                                 game:GetService("RunService").Heartbeat:Connect(function()
                                     game:GetService("Players").srivathsanYTuber.PlayerGui.HUD.Quests.Visible = true
-                                        for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame.template:GetChildren()) do
+                                        for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Frame.ScrollingFrame.template:GetChildren()) do
                                             if v.Name == "progress" then
                                                 if v.Text == "1/1" then
                                                     print("Progress completed.")
