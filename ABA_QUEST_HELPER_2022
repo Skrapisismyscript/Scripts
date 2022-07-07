@@ -1,4 +1,15 @@
-repeat wait() until game:IsLoaded()
+game["Loaded"]:Wait()
+local Players = game:GetService("Players")
+local LP = Players["LocalPlayer"]
+while not LP do
+   Players["ChildAdded"]:Wait()
+   LP = Players["LocalPlayer"]
+end
+local Char = LP["Character"]
+while not Char do
+   LP["CharacterAdded"]:Wait()
+   Char = LP["Character"]
+end
 task.spawn(function()
     
     task.wait(3)
