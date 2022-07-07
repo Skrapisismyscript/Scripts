@@ -10,6 +10,7 @@ while not Char do
    LP["CharacterAdded"]:Wait()
    Char = LP["Character"]
 end
+print('game loaded, loading script.')
 task.spawn(function()
     
     task.wait(3)
