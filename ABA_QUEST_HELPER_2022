@@ -27,10 +27,12 @@ task.spawn(function()
         firesignal(Button.Activated)
         firesignal(Button.MouseButton1Down)
     end
+
     if game.PlaceId == 5411459567 then
-        task.wait(1)
-        game:GetService("RunService").Heartbeat:Connect(function()
+        task.spawn(function()
+            game:GetService("RunService").Heartbeat:Connect(function()
                 Tp(1458767429)
+            end)
         end)
 
     elseif game.PlaceId == 1458767429 then
