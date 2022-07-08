@@ -69,7 +69,7 @@ if game.PlaceId == 1458767429 then
         task.wait(1)
         game:GetService("RunService").RenderStepped:Connect(function()
 
-            Click(game:GetService("Players").LocalPlayer.PlayerGui.HUD.DailyQuestButton)
+            game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
 
         end)
         
