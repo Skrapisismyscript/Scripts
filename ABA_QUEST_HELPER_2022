@@ -1,6 +1,7 @@
 repeat wait() until game:IsLoaded()
 wait(4)
 setfpscap(10)
+spawn(function()
 print('game loaded, loading script.')
 -- anti afk
 for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
@@ -228,3 +229,4 @@ if game.PlaceId == 1458767429 then
 
 
 end
+end)
