@@ -1,5 +1,10 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Skrapisismyscript/BullyKaigaku.exe/main/Essential_func"))()
 print('loadstring loaded')
+local function Click(Button)
+    firesignal(Button.MouseButton1Click)
+    firesignal(Button.Activated)
+    firesignal(Button.MouseButton1Down)
+end
 local fails = 0
 
 if game.PlaceId == 1458767429 then
@@ -10,7 +15,7 @@ if game.PlaceId == 1458767429 then
             local fails = 0
 
             game:GetService("ReplicatedStorage").GetDailyQuestInfo:InvokeServer()
-            Click(game:GetService("Players").LocalPlayer.PlayerGui.HUD.DailyQuestButton)
+            game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
             task.wait(1)
             for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame:GetChildren()) do
                 if v.Name == "template" then
