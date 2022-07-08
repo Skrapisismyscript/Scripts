@@ -1,6 +1,5 @@
 repeat wait() until game:IsLoaded()
 wait(4)
-setfpscap(10)
 spawn(function()
 print('game loaded, loading script.')
 -- anti afk
