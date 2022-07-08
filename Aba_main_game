@@ -1,0 +1,120 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Skrapisismyscript/BullyKaigaku.exe/main/Essential_func"))()
+print('loadstring loaded')
+local fails = 0
+
+if game.PlaceId == 1458767429 then
+
+    if #game.Players:GetPlayers() == 1 then
+
+        task.spawn(function()
+            local fails = 0
+
+            game:GetService("ReplicatedStorage").GetDailyQuestInfo:InvokeServer()
+            Click(game:GetService("Players").LocalPlayer.PlayerGui.HUD.DailyQuestButton)
+            task.wait(1)
+            for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame:GetChildren()) do
+                if v.Name == "template" then
+                    task.wait()
+                    if v.title.Text == "Win 3 casual matches in a row in one sitting" and v.reward.Text == "Reward: 0.5 Level(s)" then
+                        print("Quest found.")
+                        for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame:GetChildren()) do
+                            if v.Name == "Time" and v.Text == "Stock" then
+                                task.wait()
+                                Click(v)
+                            end
+                        end
+                        
+                                
+                        task.wait(1)
+                        Click(game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame.Start)
+
+
+                        task.spawn(function()
+                            game:GetService("RunService").Heartbeat:Connect(function()
+                                game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
+                                    for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests:GetDescendants()) do
+                                        if v.Name == "progress" then
+                                            if v.Text == "1/1" then
+                                                print("Progress completed.")
+                                                task.wait(12)
+                                                Tp(5411459567)
+                                            end
+                                        end
+                                    end
+                            end)
+                        end)
+                    else
+                        fails =  fails + 1
+                        print("not found.")
+                        if fails == 4 then
+                            print("failed to find.")
+                            game:GetService("RunService").Heartbeat:Connect(function()
+                                
+                                    Tp(5411459567)
+                                
+                            end)
+                        end
+                    end
+                end
+            end
+        end)
+
+
+
+    else
+
+
+        game.ReplicatedStorage.Loaded:FireServer()
+
+        task.wait(1)
+        game:GetService("RunService").RenderStepped:Connect(function()
+
+            Click(game:GetService("Players").LocalPlayer.PlayerGui.HUD.DailyQuestButton)
+
+        end)
+        
+
+        task.wait(1)
+        for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame:GetChildren()) do
+            if v.Name == "template" then
+                task.wait()
+                if v.title.Text == "Win 3 casual matches in a row in one sitting" and v.reward.Text == "Reward: 0.5 Level(s)" then
+                    print("Quest found.")
+                    task.spawn(function()
+                        game:GetService("RunService").Heartbeat:Connect(function()
+                            for i,v in next, (PsCode) do
+                                local args = {
+                                    [1] = "join",
+                                    [2] = v
+                                }
+                                
+                                game:GetService("ReplicatedStorage"):FindFirstChild("PS"):FireServer(unpack(args))
+                            end
+                        end)
+                    end)
+                else
+                        fails =  fails + 1
+                            print("not found.")
+                            if fails == 4 then
+                                print("failed to find.")
+                                game:GetService("RunService").Heartbeat:Connect(function()
+                                    
+                                        Tp(5411459567)
+                                    
+                                end)
+                            end
+                end
+            end
+        end
+    end
+
+
+
+
+
+
+
+
+
+
+end
