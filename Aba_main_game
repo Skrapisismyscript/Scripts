@@ -1,4 +1,5 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Skrapisismyscript/BullyKaigaku.exe/main/Essential_func"))()
+wait(6)
 print('loadstring loaded')
 local function Click(Button)
     firesignal(Button.MouseButton1Click)
