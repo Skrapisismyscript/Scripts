@@ -1,5 +1,5 @@
 repeat wait() until game:IsLoaded() and game.Players and game.Players.LocalPlayer
-
+task.wait(3)
 print('game loaded, loading script.')
 -- anti afk
 for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
