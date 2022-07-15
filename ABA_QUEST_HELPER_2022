@@ -19,30 +19,32 @@ function questvisible()
         pcall(function()
             if  game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests then
                 game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
-            else return print("Couldn't find quest! retrying.")
+            else return --("Couldn't find quest! retrying.")
             end
         end)
     end)
 end
 function progresscompletecheck()
     game:GetService("RunService").RenderStepped:Connect(function()
-        for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests:GetDescendants() do
-            if v.Name == "progress" then
-                if v.Text == "1/1" then
-                    print("1/1 found.")
-                    task.wait(12)
-                    Tp(5411459567)
+        pcall(function()
+            for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests:GetDescendants() do
+                if v.Name == "progress" then
+                    if v.Text == "1/1" then
+                        --("1/1 found.")
+                        task.wait(12)
+                        Tp(5411459567)
+                    end
                 end
             end
-        end
+        end)
     end)
 end
 local fails = 0
 function failing()
     fails =  fails + 1
-    print("not found.")
+    --("not found.")
     if fails == 4 then
-        print("failed to find.")
+        --("failed to find.")
         game:GetService("RunService").RenderStepped:Connect(function()
                                 
             Tp(5411459567)
@@ -59,7 +61,7 @@ if game.PlaceId == 5411459567 then
 elseif game.PlaceId == 1458767429 then
     pcall(function()
         if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Vip") then
-            print("Vip")
+            --("Vip")
             questvisible()
             task.wait(3.4)
             if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible == true then
@@ -86,7 +88,7 @@ elseif game.PlaceId == 1458767429 then
             end
 
         else
-            print("Not Vip.")
+            --("Not Vip.")
             game.ReplicatedStorage.Loaded:FireServer()
             task.wait(1)
             questvisible()
