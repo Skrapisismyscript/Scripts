@@ -1,231 +1,118 @@
-repeat wait() until game:IsLoaded()
-wait(4)
-spawn(function()
-print('game loaded, loading script.')
--- anti afk
+repeat wait() until game:IsLoaded() and game.Players and game.Players.LocalPlayer
+wait(3)
+
 for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
     v:Disable()
-    print('done')
 end
-
 -- Teleport func
 function Tp(place)
     game:GetService("TeleportService"):Teleport(place, game.Players.LocalPlayer)
 end
-
-
-
-
 -- Click signal func
 local function Click(Button)
     firesignal(Button.MouseButton1Click)
     firesignal(Button.Activated)
     firesignal(Button.MouseButton1Down)
 end
-
-
-
- -- Serverhop
-local PlaceID = game.PlaceId
-                local AllIDs = {}
-                local foundAnything = ""
-                local actualHour = os.date("!*t").hour
-                local Deleted = false
-                local File = pcall(function()
-                    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
-                end)
-                if not File then
-                    table.insert(AllIDs, actualHour)
-                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-                end
-                function TPReturner()
-                    local Site;
-                    if foundAnything == "" then
-                        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
-                    else
-                        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-                    end
-                    local ID = ""
-                    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-                        foundAnything = Site.nextPageCursor
-                    end
-                    local num = 0;
-                    for i,v in next, (Site.data) do
-                        local Possible = true
-                        ID = tostring(v.id)
-                        if tonumber(v.maxPlayers) > tonumber(v.playing) then
-                            for _,Existing in pairs(AllIDs) do
-                                if num ~= 0 then
-                                    if ID == tostring(Existing) then
-                                        Possible = false
-                                    end
-                                else
-                                    if tonumber(actualHour) ~= tonumber(Existing) then
-                                        local delFile = pcall(function()
-                                            delfile("NotSameServers.json")
-                                            AllIDs = {}
-                                            table.insert(AllIDs, actualHour)
-                                        end)
-                                    end
-                                end
-                                num = num + 1
-                            end
-                            if Possible == true then
-                                table.insert(AllIDs, ID)
-                                wait()
-                                pcall(function()
-                                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-                                    wait()
-                                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-                                end)
-                                wait(4)
-                            end
-                        end
-                    end
-                end
-
-                function Teleport()
-                    while wait() do
-                        pcall(function()
-                            TPReturner()
-                            if foundAnything ~= "" then
-                                TPReturner()
-                            end
-                        end)
-                    end
-                end
-
-
-print('loadstring loaded')
-local function Click(Button)
-    firesignal(Button.MouseButton1Click)
-    firesignal(Button.Activated)
-    firesignal(Button.MouseButton1Down)
-end
-print('loadstring 2 loaded')
-game:GetService("RunService").Heartbeat:Connect(function()
-if game.PlaceId == 5411459567 then
-    
-        Tp(1458767429)
-   
-end
-end)
-local fails = 0
-
-if game.PlaceId == 1458767429 then
-
-    if #game.Players:GetPlayers() == 1 then
-
-        task.spawn(function()
-            local fails = 0
-
-            game:GetService("ReplicatedStorage").GetDailyQuestInfo:InvokeServer()
-            game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
-            task.wait(1)
-            for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame:GetChildren()) do
-                if v.Name == "template" then
-                    task.wait()
-                    if v.title.Text == "Win 3 casual matches in a row in one sitting" and v.reward.Text == "Reward: 0.5 Level(s)" then
-                        print("Quest found.")
-                        for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame:GetChildren()) do
-                            if v.Name == "Time" and v.Text == "Stock" then
-                                task.wait()
-                                Click(v)
-                            end
-                        end
-                        
-                                
-                        task.wait(1)
-                        Click(game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame.Start)
-
-
-                        task.spawn(function()
-                            game:GetService("RunService").Heartbeat:Connect(function()
-                                game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
-                                    for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests:GetDescendants()) do
-                                        if v.Name == "progress" then
-                                            if v.Text == "1/1" then
-                                                print("Progress completed.")
-                                                task.wait(12)
-                                                Tp(5411459567)
-                                            end
-                                        end
-                                    end
-                            end)
-                        end)
-                    else
-                        fails =  fails + 1
-                        print("not found.")
-                        if fails == 4 then
-                            print("failed to find.")
-                            game:GetService("RunService").Heartbeat:Connect(function()
-                                
-                                    Tp(5411459567)
-                                
-                            end)
-                        end
-                    end
-                end
+function questvisible()
+    game:GetService("RunService").RenderStepped:Connect(function()
+        pcall(function()
+            if  game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests then
+                game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
+            else return print("Couldn't find quest! retrying.")
             end
         end)
-
-
-
-    else
-
-
-        game.ReplicatedStorage.Loaded:FireServer()
-
-        task.wait(1)
-        game:GetService("RunService").RenderStepped:Connect(function()
-
-            game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible = true
-
-        end)
-        
-
-        task.wait(1)
-        for i,v in next,  (game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame:GetChildren()) do
-            if v.Name == "template" then
-                task.wait()
-                if v.title.Text == "Win 3 casual matches in a row in one sitting" and v.reward.Text == "Reward: 0.5 Level(s)" then
-                    print("Quest found.")
-                    task.spawn(function()
-                        game:GetService("RunService").Heartbeat:Connect(function()
-                            for i,v in next, (PsCode) do
-                                local args = {
-                                    [1] = "join",
-                                    [2] = v
-                                }
-                                
-                                game:GetService("ReplicatedStorage"):FindFirstChild("PS"):FireServer(unpack(args))
-                            end
-                        end)
-                    end)
-                else
-                        fails =  fails + 1
-                            print("not found.")
-                            if fails == 4 then
-                                print("failed to find.")
-                                game:GetService("RunService").Heartbeat:Connect(function()
-                                    
-                                        Tp(5411459567)
-                                    
-                                end)
-                            end
+    end)
+end
+function progresscompletecheck()
+    game:GetService("RunService").RenderStepped:Connect(function()
+        for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests:GetDescendants() do
+            if v.Name == "progress" then
+                if v.Text == "1/1" then
+                    print("1/1 found.")
+                    task.wait(12)
+                    Tp(5411459567)
                 end
             end
         end
-    end
-
-
-
-
-
-
-
-
-
-
+    end)
 end
-end)
+local fails = 0
+function failing()
+    fails =  fails + 1
+    print("not found.")
+    if fails == 4 then
+        print("failed to find.")
+        game:GetService("RunService").RenderStepped:Connect(function()
+                                
+            Tp(5411459567)
+                                
+        end)
+    
+    end
+end
+if game.PlaceId == 5411459567 then
+    pcall(function()
+        task.wait(1)
+        Tp(1458767429)
+    end)
+elseif game.PlaceId == 1458767429 then
+    pcall(function()
+        if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Vip") then
+            print("Vip")
+            questvisible()
+            task.wait(3.4)
+            if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible == true then
+                for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame:GetChildren() do
+                    if v.Name == "template" then
+                        if v.title.Text == "Win 3 casual matches in a row in one sitting" and v.reward.Text == "Reward: 0.5 Level(s)" then
+
+                            for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame:GetChildren() do
+                                if v.Name == "Time" and v.Text == "Stock" then
+                                    Click(v)
+                                end
+                            end
+
+                            if game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame.Start then
+                                task.wait(1)
+                                Click(game:GetService("Players").LocalPlayer.PlayerGui.Vip.Frame.Start)
+                            end
+                            progresscompletecheck()
+                        else
+                            failing()
+                        end
+                    end
+                end
+            end
+
+        else
+            print("Not Vip.")
+            game.ReplicatedStorage.Loaded:FireServer()
+            task.wait(1)
+            questvisible()
+
+            task.wait(3.4)
+            if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("HUD").Quests.Visible == true then
+                for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui.HUD.Quests.Frame.ScrollingFrame:GetChildren() do
+                    if v.Name == "template" then
+                        if v.title.Text == "Win 3 casual matches in a row in one sitting" and v.reward.Text == "Reward: 0.5 Level(s)" then
+                            game:GetService("RunService").RenderStepped:Connect(function()
+                            
+                                for i,v in next, (PsCode) do
+                                    local args = {
+                                        [1] = "join",
+                                        [2] = v
+                                    }
+                                    
+                                    game:GetService("ReplicatedStorage"):FindFirstChild("PS"):FireServer(unpack(args))
+                                end
+                            end)
+                        else
+                            failing()
+                        end
+                    end
+                end
+            end
+        end
+    end)
+end
